@@ -1,0 +1,65 @@
+import React, { useState } from 'react'
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import './Login.css'
+export default function Login() {
+    const [formData, setFormData] = useState({
+        email:"",
+        password:"",
+        errors:{}
+    })
+
+    const validationForm =()=>{
+        const errors ={};
+        if(!formData.email)
+            errors.email = "Email is Required!"
+     
+       if(!formData.password)
+        errors.password= "Password is Required!!"
+
+       setFormData((prevState)=> ({...prevState,errors}))
+
+       return Object.keys(errors).length ===0;
+
+
+    }
+
+ const handleChange = (event) =>{
+    const {name, value}= event.target;
+    setFormData((prevState)=>({...prevState,[name]: value}))
+ }
+
+   const handleSubmit = (event) =>{
+    event.preventDefault();
+    if(validationForm()){
+ console.log(formData);
+    }
+   
+   }
+
+  return (
+    <div className='container-fluid'>
+        <h1 className='alert alert-warning text-center'> Login Form</h1>
+        <Form className='formcss' onSubmit={handleSubmit}>
+      <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Email address</Form.Label>
+        <Form.Control  style={{width:'18em'}} type="email" 
+        placeholder="Enter email" name ="email" value={formData.email} onChange={handleChange} />
+       {formData.errors.email &&(<p style={{color:"red"}}>{formData.errors.email} </p>)}
+
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Label>Password</Form.Label>
+        <Form.Control style={{width:'18em'}} type="password" placeholder="Password" name="password" 
+        value={formData.password} onChange={handleChange} />
+          {formData.errors.password &&(<p style={{color:"red"}}>{formData.errors.password} </p>)}
+      </Form.Group>
+    
+      <Button variant="primary" type="submit">
+        Submit
+      </Button>
+    </Form>
+    </div>
+  )
+}
