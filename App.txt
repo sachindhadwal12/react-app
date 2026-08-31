@@ -1,0 +1,43 @@
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from './assets/vite.svg'
+import heroImg from './assets/hero.png'
+import './App.css'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Home from './components/Home'
+import UserDetails from './components/UserDetails'
+import Header from './components/Header'
+import Team from './components/Team'
+import Product from './components/Product'
+import Login from './components/Login'
+import ProtectedRoute from './components/ProtectedRoute'
+import Register from './components/Register'
+
+function App() {
+
+  const isLoggedIn = false;
+
+  return (
+    <>
+     <BrowserRouter>
+     <Header/>
+     <Routes>
+      {/* <Route path="/" element={<Home/>}/>
+      <Route path='/user/:id' element={<UserDetails/>}/>
+      <Route path='' */}
+     <Route path='/' element={<Home/>}/>
+     <Route path='/team' element={<Team/>}/>
+     <Route path='/login' element={<Login/>}/>
+     {/* <Route path='/product' element={<Product/>}/> */}
+     <Route path="/register" element={<Register/>}/>
+     <Route path='/product' element={<ProtectedRoute isLoggedIn={isLoggedIn}>
+        <Product/>
+     </ProtectedRoute> }/>
+
+      </Routes>
+     </BrowserRouter>
+    </>
+  )
+}
+
+export default App
