@@ -1,0 +1,113 @@
+import { useFormik } from 'formik';
+import React, { useEffect, useState } from 'react'
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import  {validationSchema} from './ValidationSchema'
+import api from '../api';
+export default function Register() {
+const [register,setRegister] = useState([]);
+useEffect(()=>{
+ fetchregister();
+console.log(register)
+},[])
+
+const fetchregister  = async()=>{
+   try{
+     const res = await api.get("/register");
+    setRegister(res.data);
+    console.log(res.data)
+   }catch(err){
+    console.log("error")
+   }
+   
+}
+
+    const formik = useFormik({
+        initialValues: {
+            username: "",
+            email: "",
+            password: "",
+            confirmPassword: ""
+        },
+        validationSchema,
+        onSubmit:(values) =>{
+            // const {confirmPassword,...dataToSend} = values;
+            console.log(values);
+            api.post("/register",values);
+            alert("Welcome !!")
+        }
+    })
+
+
+    return (
+        <>
+        <div className='container-fluid'>
+            <h1 className='alert alert-warning text-center'>Register Form</h1>
+            <Form className='formcss' onSubmit={formik.handleSubmit}>
+                <Form.Group className="mb-3" controlId="formBasicuser">
+                    <Form.Label>UserName</Form.Label>
+                    <Form.Control style={{ width: '18em' }} type="text" placeholder="Enter UserName"
+                        name="username" value={formik.values.username}
+                         onChange={formik.handleChange}
+                         onBlur={formik.handleBlur}
+                         isInvalid={formik.touched.username && !!formik.errors.username} />
+                         <Form.Control.Feedback type='invalid'>
+                            {formik.errors.username}
+                         </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control style={{ width: '18em' }} 
+                    type="email" placeholder="Enter email"
+                     name="email" value={formik.values.email}
+                         onChange={formik.handleChange}
+                         onBlur={formik.handleBlur}
+                         isInvalid={formik.touched.email && !!formik.errors.email} />
+                          <Form.Control.Feedback type='invalid'>
+                            {formik.errors.email}
+                         </Form.Control.Feedback>
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control style={{ width: '18em' }} 
+                    type="password" placeholder="Password"
+                     name="password" value={formik.values.password}
+                         onChange={formik.handleChange}
+                         onBlur={formik.handleBlur}
+                         isInvalid={formik.touched.password && !!formik.errors.password}
+                    />
+                      <Form.Control.Feedback type='invalid'>
+                            {formik.errors.password}
+                         </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="CPassword">
+                    <Form.Label>Confirm Password</Form.Label>
+                    <Form.Control style={{ width: '18em' }}
+                     type="password" placeholder="Confirm Password"
+                      name="confirmPassword" value={formik.values.confirmPassword}
+                         onChange={formik.handleChange}
+                         onBlur={formik.handleBlur}
+                         isInvalid={formik.touched.confirmPassword && !!formik.errors.confirmPassword} />
+ <Form.Control.Feedback type='invalid'>
+                            {formik.errors.confirmPassword}
+                         </Form.Control.Feedback>
+
+                </Form.Group>
+
+                <Button variant="primary" type="submit">
+                    Submit
+                </Button>
+            </Form>
+        </div>
+
+<h1>Register Data</h1>
+{
+
+  register.map((reg,ind)=>(
+    <p>{reg.username}</p>
+  ))
+}
+</>
+    )
+}
