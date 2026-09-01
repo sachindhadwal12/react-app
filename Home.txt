@@ -1,0 +1,70 @@
+import React, { useEffect, useState } from 'react'
+import { data, Link } from 'react-router-dom'
+import Table from 'react-bootstrap/Table';
+import api from '../api';
+export default function Home() {
+const [students, setStudents]= useState([])
+useEffect(()=>{
+  // fetch("http://localhost:3000/students")
+  // .then((resp)=>{
+  // return  resp.json()
+  // })
+  // .then((data)=>{
+  //  console.log(data)
+  //  setStudents(data)
+  // }
+
+  // )
+
+fetchStudent();
+},[])
+
+const fetchStudent = async() =>{
+ try{
+  const res = await api.get("/students");
+  setStudents(res.data);
+  console.log(res.data)
+ }
+ catch(err){
+  console.log("Failed to load studnet")
+ }
+}
+
+
+
+  return (
+    <div className='container'>
+        <h2 className='bg-dark'> User List</h2>
+        <ul>
+            <li><Link to="/user/1">User 1</Link></li>
+            <li><Link to="/user/2">User 2</Link></li>
+            <li><Link to="/user/3">User 3</Link></li>
+        </ul>
+
+  <Table striped bordered hover responsive variant="dark">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Course</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        students.map((s,index) => (
+       <tr>
+        <td>{s.id}</td>
+        <td>{s.name}</td>
+        <td>{s.email}</td>
+        <td>{s.course}</td>
+       </tr>
+        ))
+      }
+    </tbody>
+  </Table>
+
+
+    </div>
+  )
+}
