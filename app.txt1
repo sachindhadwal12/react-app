@@ -1,0 +1,57 @@
+import { Suspense, useMemo, useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from './assets/vite.svg'
+import heroImg from './assets/hero.png'
+import './App.css'
+import Greeting from './components/Greeting'
+import User from './components/User'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Header from './components/Header'
+import Home from './components/Home'
+import About from './components/About'
+import Contact from './components/Contact'
+import { lazy } from 'react'
+
+function App() {
+  const [count, setCount] = useState(0);
+  const [name, setName] = useState("");
+    
+  const About = lazy(()=> import("./components/About"));
+  const Contact = lazy(()=> import("./components/Contact"))
+
+
+  const square = useMemo(()=>{
+    console.log("calculating sqaure");
+    return count * count;
+  },[count])
+ 
+  const UserGreeting = Greeting(User);
+
+  return (
+    <>
+
+   <BrowserRouter>
+   <Header/>
+   <Suspense fallback={<h2>Loading page</h2>}>
+   <Routes>
+    <Route path='/' element={<Home/>}/>
+    <Route path='/about' element={<About/>}/>
+    <Route path='/contact' element={<Contact/>}/>
+   </Routes>
+   </Suspense>
+   </BrowserRouter>
+
+
+    {/* <UserGreeting name="Sachin"/> */}
+
+   {/* <h1>Count : {count}</h1>
+    <h1>Square: {square}</h1>
+    <button onClick={()=> setCount(count +1 )}>Increment</button>
+
+    <br/>
+    <input type='text' value={name} onChange={(e)=> setName(e.target.value)}/> */}
+    </>
+  )
+}
+
+export default App
