@@ -1,0 +1,14 @@
+import React from 'react'
+
+function Greeting(WrappedComponent){
+    return function EnhancedComponent(props){
+        return(
+            <div>
+                <h1> Hello !!!</h1>
+                   <h1>  I am Higher order Component</h1>
+                <WrappedComponent {...props}/>
+            </div>
+        )
+    }
+}
+export default Greeting;
