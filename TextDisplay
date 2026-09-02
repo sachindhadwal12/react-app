@@ -1,0 +1,12 @@
+import React from 'react'
+
+export default function TextDisplay({text}) {
+
+    if(typeof text !== "string") {
+        throw new Error('Excepted String Value only');
+    }
+
+  return (
+    <div>TextDisplay  {text}</div>
+  )
+}
