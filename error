@@ -1,0 +1,43 @@
+import React, { children, Component } from 'react'
+
+export default class ErrorBoundary extends Component {
+
+    constructor(props){
+        super(props);
+
+        this.state ={
+            hasError: false,
+            errorMessage:""
+        }
+
+
+
+    }
+
+
+    static getDerivedStateFromError(error){
+        return{
+           hasError: true,
+           errorMessage: error.message
+        }
+    }
+
+    componentDidCatch(error, errInfo){
+        console.log("Error Caught", error)
+        console.log("Error info",errInfo)
+    }
+
+  render() {
+    
+     if(this.state.hasError){
+  return(
+    <div>
+        <h2>Something went wrong!!!</h2>
+        <p style={{color:"Red"}}>{this.state.errorMessage}</p>
+    </div>
+  )
+     }
+     return this.props.children;
+    }
+  
+}
