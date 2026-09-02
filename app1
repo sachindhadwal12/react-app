@@ -1,0 +1,33 @@
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from './assets/vite.svg'
+import heroImg from './assets/hero.png'
+import './App.css'
+import CounterDisplay from './components/CounterDisplay'
+import IncrementButton from './components/IncrementButton'
+import DecrementButton from './components/DecrementButton'
+import TextDisplay from './components/TextDisplay'
+import ErrorBoundary from './components/ErrorBoundary'
+
+function App() {
+  const [count, setCount] = useState(0)
+const num = 34786543;
+  return (
+    <>
+    <div style={{ textAlign: "center"}}>
+      <h2>Context Api Demo</h2>
+      <CounterDisplay/>
+      <IncrementButton label="increment 1"/>
+      <IncrementButton label="increment 2"/>
+      <DecrementButton label="decrement 1"/>
+      <DecrementButton label="decrement 2" />
+    </div>
+    <h2>Error Boundary Demo</h2>
+    <ErrorBoundary>
+    <TextDisplay text= {1234566}/>
+    </ErrorBoundary>
+    </>
+  )
+}
+
+export default App
